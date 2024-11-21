@@ -1,0 +1,45 @@
+class Solution {
+    private static final int ug= 0;
+    private static final int gd= 1;
+    private static final int g= 2;
+    private static final int w= 3;
+    public void mg(int row, int col, int[][] grid) {
+        for (int r = row - 1; r >= 0; r--) {
+            if (grid[r][col] == w || grid[r][col] == g) break;
+            grid[r][col] = gd;
+        }
+        for (int r = row + 1; r < grid.length; r++) {
+            if (grid[r][col] == w || grid[r][col] == g) break;
+            grid[r][col] =gd;
+        }
+        for (int c = col - 1; c >= 0; c--) {
+            if (grid[row][c] == w || grid[row][c] == g) break;
+            grid[row][c] = gd;
+        }
+        for (int c = col + 1; c < grid[0].length; c++) {
+            if (grid[row][c] == w || grid[row][c] == g) break;
+            grid[row][c] =gd;
+        }
+    }
+
+    public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
+        int[][] arr= new int[m][n];
+        for (int[] guard : guards) {
+            arr[guard[0]][guard[1]] = g;
+        }
+        for (int[] wall : walls) {
+            arr[wall[0]][wall[1]] = w;
+        }
+        for (int[] guard : guards) {
+            mg(guard[0], guard[1],arr);
+        }
+        int c= 0;
+        for (int[] row : arr) {
+            for (int cell : row) {
+                if (cell ==ug) 
+                    c++;
+            }
+        }
+        return c;
+    }
+}
